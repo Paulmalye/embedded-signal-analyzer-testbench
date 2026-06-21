@@ -1,182 +1,156 @@
 Embedded Signal Analyzer & Test Bench
+Pourquoi ce projet ?
+Dans le cadre de ma reconversion vers l’électronique, je souhaitais développer un projet allant au-delà d’un simple montage Arduino ou d’un capteur connecté.
+L’objectif était de concevoir un véritable mini banc de test électronique capable de générer, mesurer et analyser des signaux, en reproduisant à petite échelle certaines fonctions que l’on retrouve dans les équipements de validation, de diagnostic et de maintenance électronique.
+Ce projet est construit autour d’un ESP32 et combine électronique analogique, électronique numérique, acquisition de données et traitement du signal.
 
-Présentation
-
-L’objectif de ce projet est de concevoir un mini banc de test électronique embarqué basé sur un ESP32 capable de générer, mesurer et analyser différents signaux.
-
-Ce système reproduit plusieurs fonctions couramment rencontrées dans les équipements de test et de validation électroniques industriels :
-
-Génération de signaux PWM
-Filtrage analogique RC
-Acquisition ADC
-Mesure de fréquence
-Analyse fréquentielle par FFT
-Diagnostic automatique PASS / WARN / FAIL
-Affichage temps réel sur OLED
-
-Ce projet est réalisé dans le cadre de ma reconversion vers l’électronique et de ma préparation au BTS CIEL (Cybersécurité, Informatique et Réseaux, Électronique).
 
 ⸻
 
-Objectifs pédagogiques
 
-Ce projet m’a permis de mettre en pratique :
+Démonstration
+Le système permet de :
+Générer un signal PWM réglable en fréquence et en rapport cyclique.
+Convertir ce signal en tension analogique grâce à un filtre RC.
+Mesurer et caractériser cette tension.
+Calculer les valeurs minimales, maximales et moyennes.
+Appliquer un filtrage numérique par moyenne glissante.
+Mesurer la fréquence réelle du signal généré.
+Réaliser une analyse fréquentielle par FFT.
+Produire un diagnostic automatique PASS / WARN / FAIL.
 
-Les microcontrôleurs ESP32
-Les interfaces I2C
-Les convertisseurs analogique-numérique (ADC)
-La génération PWM
-Les filtres RC
-Le traitement du signal
-Les mesures électroniques
-L’analyse fréquentielle (FFT)
-Les méthodes de test et de validation
 
 ⸻
 
-Architecture du système
 
+Architecture générale
+Potentiomètres
+       │
+       ▼
 ESP32
+├── Générateur PWM
+├── Filtre RC
+├── Acquisition ADC
+├── Moyenne glissante
+├── Fréquencemètre
+├── Analyse FFT
+└── Diagnostic automatique
+       │
+       ▼
+OLED
 
-Générateur PWM
-Contrôle fréquence et rapport cyclique
-Acquisition ADC
-Mesure de fréquence
-Analyse FFT
-Diagnostic automatique
-
-Périphériques :
-
-OLED SSD1306
-Potentiomètres de réglage
-Filtre RC
-Transistor PN2222
-LED de visualisation
 
 ⸻
+
 
 Fonctionnalités
-
-Générateur PWM
-
+Génération PWM
 Réglage en temps réel :
-
-Fréquence
+Fréquence du signal
 Rapport cyclique (Duty Cycle)
-
-Analyse analogique
-
+Acquisition analogique
 Mesures disponibles :
-
 Tension instantanée
 Tension lissée
 Valeur minimale
 Valeur maximale
-Amplitude (Range)
-
+Range (stabilité du signal)
 Mesure de fréquence
-
 Comparaison entre :
-
 Fréquence demandée
 Fréquence réellement mesurée
-
 Analyse FFT
-
-Détermination de la fréquence dominante du signal.
-
+Détection de la fréquence dominante du signal et validation de sa cohérence avec la fréquence générée.
 Diagnostic automatique
-
-Évaluation automatique :
-
+Le système compare les différentes mesures et affiche :
 PASS
 WARN
 FAIL
 
-⸻
-
-Écrans OLED
-
-OLED 1 : Génération et acquisition
-
-PWM
-Duty Cycle
-Tension ADC
-Moyenne glissante
-Range
-
-OLED 2 : Analyse et diagnostic
-
-Fréquence mesurée
-FFT
-Erreur
-Diagnostic
 
 ⸻
+
+
+Double affichage OLED (version finale)
+OLED 1 — Génération et acquisition
+PWM : 2500 Hz
+Duty : 60 %
+
+ADC : 1.98 V
+Smooth : 1.95 V
+Range : 0.03 V
+OLED 2 — Analyse fréquentielle
+MEAS : 2498 Hz
+FFT  : 2501 Hz
+
+Err : 0.1 %
+PASS
+
+
+⸻
+
 
 Matériel utilisé
-
 ESP32 DevKit
 OLED SSD1306
-Potentiomètres 10 kΩ
-PN2222
+Potentiomètres
+Transistor PN2222
 LED
 Résistances
 Condensateurs
 Breadboard
 
-⸻
-
-Compétences démontrées
-
-Électronique analogique
-Électronique numérique
-Systèmes embarqués
-Traitement du signal
-Acquisition de données
-Instrumentation
-Validation et diagnostic
 
 ⸻
 
-Développement
 
-Étape 1
+Ce que j’ai appris
+Au-delà du montage lui-même, ce projet m’a permis de comprendre concrètement :
+Le fonctionnement d’un filtre RC.
+La relation entre fréquence, période et rapport cyclique.
+L’acquisition analogique sur ESP32.
+Le filtrage numérique par moyenne glissante.
+La mesure de fréquence.
+Les bases de l’analyse fréquentielle par FFT.
+La construction d’une chaîne complète de mesure et de diagnostic.
+L’objectif n’était pas uniquement d’obtenir un système fonctionnel, mais de comprendre chaque étape du traitement du signal, depuis sa génération jusqu’à son analyse.
 
+
+⸻
+
+
+Journal de développement
+Le développement du projet est documenté étape par étape :
 OLED SSD1306
-
-Étape 2
-
 Génération PWM
-
-Étape 3
-
-Filtre RC et mesures ADC
-
-Étape 4
-
+Filtre RC
+Acquisition ADC
 Min / Max / Moyenne / Range
-
-Étape 5
-
+Moyenne glissante
 Mesure de fréquence
-
-Étape 6
-
 Analyse FFT
-
-Étape 7
-
 Diagnostic automatique
-
-Étape 8
-
 Double affichage OLED
+👉 Voir le journal complet dans le dossier docs/.
+
 
 ⸻
+
+
+Perspectives d’évolution
+Analyse FFT avancée
+Détection automatique de défauts
+Journalisation des mesures
+Carte SD
+Interface Web Wi-Fi
+Dashboard temps réel
+Générateur multi-signaux
+Auto-test matériel
+
+
+⸻
+
 
 Auteur
-
 Paul Malye
-
-Projet personnel de reconversion vers l’électronique embarquée et les systèmes de test.
+Projet personnel réalisé dans le cadre de ma reconversion vers l’électronique embarquée, les systèmes de test et la validation électronique.
