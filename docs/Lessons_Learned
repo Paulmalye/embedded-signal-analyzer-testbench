@@ -1,0 +1,38 @@
+# Leçons apprises
+
+## PWM et Duty Cycle
+
+J'ai compris qu'un Duty Cycle ne modifie pas la fréquence du signal mais uniquement le temps passé à l'état haut.
+
+## Filtre RC
+
+J'ai observé qu'un filtre RC transforme un signal PWM en tension moyenne.
+
+J'ai également constaté qu'une constante de temps plus importante augmente la stabilité du signal mais ralentit sa réaction.
+
+## Moyenne glissante
+
+La moyenne glissante améliore la stabilité de la mesure mais introduit un retard supplémentaire.
+
+J'ai compris qu'elle s'ajoute au retard déjà présent dans le filtre RC.
+
+## Mesure de fréquence
+
+La mesure directe de la période est plus robuste qu'une analyse FFT pour déterminer la fréquence d'un signal PWM.
+
+## FFT
+
+J'ai observé que la FFT peut devenir instable lorsque le Duty Cycle s'éloigne de 50 %.
+
+Cela s'explique par la présence d'harmoniques plus importantes dans le signal PWM.
+
+## Architecture
+
+J'ai appris à séparer :
+
+- la génération du signal ;
+- l'acquisition analogique ;
+- l'analyse fréquentielle ;
+- le diagnostic.
+
+Cette approche facilite le développement et le débogage.
