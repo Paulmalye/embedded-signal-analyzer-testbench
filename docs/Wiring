@@ -1,48 +1,6 @@
-# Schéma de câblage
+## Architecture finale
 
-## Présentation
-
-Ce document décrit les connexions utilisées pour le projet Embedded Signal Analyzer & Test Bench.
-
----
-
-## ESP32
-
-Carte principale :
-
-- ESP32 DevKit
-
----
-
-## Potentiomètre de fréquence
-
-| Élément | Connexion |
-|----------|----------|
-| Curseur | GPIO34 |
-| Extrémité 1 | 3,3 V |
-| Extrémité 2 | GND |
-
-Fonction :
-
-- Réglage de la fréquence PWM.
-
----
-
-## Potentiomètre de Duty Cycle
-
-| Élément | Connexion |
-|----------|----------|
-| Curseur | GPIO35 |
-| Extrémité 1 | 3,3 V |
-| Extrémité 2 | GND |
-
-Fonction :
-
-- Réglage du rapport cyclique.
-
----
-
-## Génération PWM
+### Génération du signal
 
 | Signal | Connexion |
 |----------|----------|
@@ -50,11 +8,11 @@ Fonction :
 
 Fonction :
 
-- Génération du signal principal.
+- Génération du signal PWM principal.
 
 ---
 
-## Filtre RC
+### Filtre RC
 
 | Élément | Connexion |
 |----------|----------|
@@ -63,11 +21,11 @@ Fonction :
 
 Fonction :
 
-- Transformation du PWM en tension moyenne.
+- Conversion du PWM en tension moyenne.
 
 ---
 
-## Acquisition ADC
+### Acquisition ADC
 
 | Signal | Connexion |
 |----------|----------|
@@ -76,10 +34,13 @@ Fonction :
 Fonction :
 
 - Mesure de la tension filtrée.
+- Calcul Min / Max.
+- Calcul du Range.
+- Moyenne glissante.
 
 ---
 
-## Mesure de fréquence
+### Mesure de fréquence
 
 | Signal | Connexion |
 |----------|----------|
@@ -87,81 +48,67 @@ Fonction :
 
 Fonction :
 
-- Mesure de la fréquence réelle du signal PWM.
+- Mesure de la fréquence réelle du signal généré.
+- Validation de la fréquence PWM.
 
 ---
 
-## FFT
+### Analyse FFT
 
 | Signal | Connexion |
 |----------|----------|
-| GPIO25 | GPIO32 (mode FFT) |
+| GPIO25 | GPIO36 |
 
 Fonction :
 
-- Analyse fréquentielle du signal.
-
-Remarque :
-
-GPIO32 est utilisé soit pour l'acquisition ADC du filtre RC, soit pour l'analyse FFT selon la configuration de test.
-
----
-
-## LED de visualisation
-
-| Élément | Connexion |
-|----------|----------|
-| GPIO26 | Résistance de base |
-| Résistance | Base du PN2222 |
-| Collecteur | LED |
-| Émetteur | GND |
-
-Fonction :
-
-- Visualisation du Duty Cycle.
+- Échantillonnage du signal brut.
+- Analyse fréquentielle.
+- Détection de la fréquence dominante.
+- Validation du signal.
 
 ---
 
-## OLED SSD1306
+### Affichage OLED n°1
 
-| OLED | ESP32 |
-|--------|--------|
-| SDA | GPIO21 |
-| SCL | GPIO22 |
-| VCC | 3,3 V |
-| GND | GND |
-
-Fonction :
-
-- Affichage des mesures.
-
----
-
-## Double OLED (version finale)
-
-### OLED 1
-
-Affichage :
+Affichage génération et acquisition :
 
 - PWM
 - Duty Cycle
-- ADC
-- Moyenne glissante
+- Tension ADC
+- Tension lissée
 - Range
 
-### OLED 2
+---
 
-Affichage :
+### Affichage OLED n°2
+
+Affichage analyse et diagnostic :
 
 - Fréquence mesurée
 - FFT
 - Erreur
-- Diagnostic
+- PASS / WARN / FAIL
 
 ---
 
-## Évolutions prévues
+### LED de diagnostic
 
-- Diagnostic automatique avancé
-- Journalisation des mesures
-- Interface Web Wi-Fi
+| LED | Fonction |
+|------|----------|
+| Verte | PASS |
+| Jaune | WARN |
+| Rouge | FAIL |
+
+---
+
+### LED de visualisation PWM
+
+| Élément | Connexion |
+|----------|----------|
+| GPIO26 | PN2222 |
+| PN2222 | LED |
+
+Fonction :
+
+- Visualisation du Duty Cycle.
+- Observation du comportement du PWM.
