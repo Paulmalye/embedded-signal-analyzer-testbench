@@ -1,1 +1,82 @@
+# Architecture matérielle
 
+## Présentation
+
+Le système est basé sur un ESP32 et a pour objectif de générer, mesurer et analyser des signaux électroniques.
+
+---
+
+## Génération du signal
+
+### GPIO25
+
+Sortie PWM principale.
+
+Fonctions :
+
+- Génération du signal PWM
+- Réglage de fréquence
+- Réglage du Duty Cycle
+
+---
+
+## Acquisition analogique
+
+### Filtre RC
+
+Le signal PWM est converti en tension moyenne à l'aide d'un filtre RC.
+
+Composants :
+
+- Résistance
+- Condensateur
+
+Cette tension est ensuite mesurée par l'ESP32.
+
+---
+
+## Mesures
+
+### GPIO33
+
+Entrée de mesure de fréquence.
+
+Fonctions :
+
+- Mesure de période
+- Calcul de fréquence
+
+### GPIO32
+
+Entrée dédiée à l'analyse FFT.
+
+Fonctions :
+
+- Échantillonnage
+- Analyse fréquentielle
+- Détection de la fréquence dominante
+
+---
+
+## Affichage
+
+### OLED SSD1306
+
+Interface utilisateur permettant l'affichage :
+
+- PWM
+- Duty Cycle
+- Tension ADC
+- Moyenne glissante
+- Fréquence
+- FFT
+- Diagnostic
+
+---
+
+## Évolutions prévues
+
+- Double OLED
+- Diagnostic avancé
+- Journalisation des mesures
+- Interface Web Wi-Fi
