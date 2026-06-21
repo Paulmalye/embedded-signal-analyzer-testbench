@@ -1,1 +1,239 @@
+# Traitement du signal
 
+## Introduction
+
+L'objectif de ce projet est de générer, mesurer et analyser un signal électronique à l'aide d'un ESP32.
+
+Le traitement du signal s'effectue en plusieurs étapes :
+
+1. Génération PWM
+2. Filtrage RC
+3. Acquisition ADC
+4. Filtrage numérique
+5. Mesure de fréquence
+6. Analyse FFT
+7. Diagnostic
+
+---
+
+## PWM (Pulse Width Modulation)
+
+Le PWM est un signal carré alternant entre :
+
+- 0 V
+- 3,3 V
+
+Deux paramètres sont réglables :
+
+### Fréquence
+
+Nombre de cycles par seconde.
+
+Exemple :
+
+- 1000 Hz = 1000 cycles par seconde
+- 2500 Hz = 2500 cycles par seconde
+
+### Duty Cycle
+
+Pourcentage du temps passé à l'état haut.
+
+Exemples :
+
+- 25 %
+- 50 %
+- 75 %
+
+Un Duty Cycle plus élevé augmente la tension moyenne après filtrage.
+
+---
+
+## Filtre RC
+
+Le filtre RC est composé :
+
+- d'une résistance
+- d'un condensateur
+
+Son rôle est de transformer le PWM en une tension moyenne.
+
+### Exemple
+
+PWM :
+
+- 0 V
+- 3,3 V
+- 0 V
+- 3,3 V
+
+Après filtrage :
+
+- 1,6 V
+- 2,0 V
+- 2,5 V
+
+selon le Duty Cycle.
+
+### Constante de temps
+
+La vitesse de réaction du filtre dépend de :
+
+```text
+τ = R × C
+```
+
+Plus τ est grand :
+
+- plus le signal est stable
+- plus il réagit lentement
+
+---
+
+## Acquisition ADC
+
+L'ESP32 mesure la tension produite par le filtre RC.
+
+L'ADC convertit la tension analogique en valeur numérique.
+
+Cette mesure permet :
+
+- d'afficher la tension
+- de suivre l'évolution du signal
+- de vérifier le comportement du filtre
+
+---
+
+## Moyenne glissante
+
+La moyenne glissante est un filtre logiciel.
+
+Elle calcule la moyenne des dernières mesures.
+
+### Avantages
+
+- réduction du bruit
+- affichage plus stable
+
+### Inconvénients
+
+- temps de réaction plus lent
+
+---
+
+## Min / Max / Range
+
+Le système conserve :
+
+- la valeur minimale
+- la valeur maximale
+
+Le Range correspond à :
+
+```text
+Range = Max - Min
+```
+
+Cette mesure permet d'évaluer :
+
+- la stabilité du signal
+- le niveau de bruit
+
+Un Range faible indique généralement un signal stable.
+
+---
+
+## Mesure de fréquence
+
+L'ESP32 mesure la période du signal.
+
+La fréquence est calculée avec :
+
+```text
+Fréquence = 1 / Période
+```
+
+Cette valeur est comparée à la fréquence PWM demandée.
+
+---
+
+## Théorème de Nyquist
+
+Pour analyser correctement un signal :
+
+```text
+Fréquence d'échantillonnage ≥ 2 × fréquence du signal
+```
+
+Exemple :
+
+- Signal : 1000 Hz
+- Échantillonnage minimum : 2000 Hz
+
+Si cette condition n'est pas respectée :
+
+- erreurs de mesure
+- repliement spectral (aliasing)
+
+---
+
+## FFT (Fast Fourier Transform)
+
+La FFT permet de décomposer un signal en fréquences.
+
+Elle indique :
+
+- les fréquences présentes
+- leur amplitude
+
+Dans ce projet, elle est utilisée pour :
+
+- identifier la fréquence dominante
+- vérifier la cohérence du signal généré
+
+---
+
+## Harmoniques
+
+Un signal PWM n'est pas une fréquence pure.
+
+Il contient :
+
+- une fréquence fondamentale
+- plusieurs harmoniques
+
+Les harmoniques sont des multiples de la fréquence principale.
+
+Exemple :
+
+- fondamentale : 1000 Hz
+- harmonique 2 : 2000 Hz
+- harmonique 3 : 3000 Hz
+
+La FFT permet d'observer ces composantes.
+
+---
+
+## Diagnostic
+
+Les différentes mesures sont comparées afin de déterminer :
+
+- PASS
+- WARN
+- FAIL
+
+Le diagnostic repose sur :
+
+- la fréquence
+- l'erreur de mesure
+- la stabilité du signal
+- les résultats FFT
+
+---
+
+## Conclusion
+
+Ce projet combine électronique analogique, électronique numérique et traitement du signal.
+
+Il permet de comprendre l'ensemble de la chaîne de mesure :
+
+PWM → Filtre RC → ADC → Traitement numérique → FFT → Diagnostic
