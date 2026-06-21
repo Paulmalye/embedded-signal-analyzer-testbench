@@ -1,1 +1,192 @@
+# Journal de développement
 
+## Étape 1 - Affichage OLED
+
+### Objectif
+
+Mettre en place un affichage temps réel pour visualiser les mesures du système.
+
+### Réalisation
+
+- Configuration de l'écran OLED SSD1306
+- Communication I2C avec l'ESP32
+- Affichage des premières valeurs de test
+
+### Résultat
+
+Affichage fonctionnel des données du système.
+
+### Compétences acquises
+
+- Communication I2C
+- Gestion d'un écran OLED
+- Bibliothèque SSD1306
+
+---
+
+## Étape 2 - Génération PWM
+
+### Objectif
+
+Créer un signal PWM dont la fréquence et le rapport cyclique sont réglables.
+
+### Réalisation
+
+- Utilisation du générateur PWM matériel de l'ESP32
+- Réglage par potentiomètres
+- Affichage temps réel des paramètres
+
+### Résultat
+
+Génération stable d'un signal PWM configurable.
+
+### Compétences acquises
+
+- PWM
+- Fréquence
+- Duty Cycle
+
+---
+
+## Étape 3 - Filtre RC
+
+### Objectif
+
+Transformer le signal PWM en tension moyenne.
+
+### Réalisation
+
+- Mise en place d'un filtre RC
+- Observation du comportement du condensateur
+- Mesure de la tension obtenue
+
+### Résultat
+
+Obtention d'une tension proportionnelle au Duty Cycle.
+
+### Compétences acquises
+
+- Filtre passe-bas
+- Constante de temps RC
+- Tension moyenne
+
+---
+
+## Étape 4 - Acquisition ADC
+
+### Objectif
+
+Mesurer la tension produite par le filtre RC.
+
+### Réalisation
+
+- Lecture ADC avec l'ESP32
+- Conversion en tension réelle
+- Affichage sur OLED
+
+### Résultat
+
+Mesure fiable de la tension analogique.
+
+### Compétences acquises
+
+- ADC
+- Conversion numérique
+- Calibration
+
+---
+
+## Étape 5 - Moyenne glissante
+
+### Objectif
+
+Réduire les fluctuations de mesure.
+
+### Réalisation
+
+- Mise en place d'une moyenne glissante logicielle
+- Comparaison avec la mesure instantanée
+
+### Résultat
+
+Signal plus stable mais moins réactif.
+
+### Compétences acquises
+
+- Filtrage numérique
+- Lissage logiciel
+- Compromis stabilité / réactivité
+
+---
+
+## Étape 6 - Mesure de fréquence
+
+### Objectif
+
+Mesurer la fréquence réelle du signal généré.
+
+### Réalisation
+
+- Comptage de période
+- Calcul de fréquence
+
+### Résultat
+
+Comparaison entre fréquence demandée et fréquence réelle.
+
+### Compétences acquises
+
+- Mesure temporelle
+- Fréquencemètre logiciel
+
+---
+
+## Étape 7 - Analyse FFT
+
+### Objectif
+
+Observer le contenu fréquentiel du signal.
+
+### Réalisation
+
+- Échantillonnage du signal
+- Analyse FFT
+- Détection de la fréquence dominante
+
+### Résultat
+
+Identification de la composante principale du signal.
+
+### Compétences acquises
+
+- FFT
+- Théorème de Nyquist
+- Analyse fréquentielle
+
+---
+
+## Étape 8 - Double OLED (en cours)
+
+### Objectif
+
+Séparer l'affichage de génération et l'affichage d'analyse.
+
+### Affichage 1
+
+- PWM
+- Duty Cycle
+- ADC
+- Moyenne glissante
+
+### Affichage 2
+
+- Fréquence
+- FFT
+- Erreur
+- Diagnostic
+
+### Bénéfices
+
+- Interface plus claire
+- Meilleure lisibilité
+- Architecture modulaire
