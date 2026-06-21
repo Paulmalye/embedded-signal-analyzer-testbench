@@ -1,1 +1,119 @@
+# Résultats de tests
 
+## Test 1 - Génération PWM
+
+### Configuration
+
+- Fréquence demandée : 1000 Hz
+- Duty Cycle : 50 %
+
+### Résultats
+
+| Paramètre | Valeur |
+|------------|---------|
+| Fréquence mesurée | 998 Hz |
+| Erreur | 0,2 % |
+| Statut | PASS |
+
+---
+
+## Test 2 - Filtre RC
+
+### Configuration
+
+- Fréquence PWM : 2500 Hz
+- Duty Cycle : 25 %
+
+### Résultats
+
+| Paramètre | Valeur |
+|------------|---------|
+| Tension ADC | 0,84 V |
+| Tension lissée | 0,82 V |
+| Range | 0,03 V |
+| Statut | PASS |
+
+---
+
+## Test 3 - Filtre RC
+
+### Configuration
+
+- Fréquence PWM : 2500 Hz
+- Duty Cycle : 50 %
+
+### Résultats
+
+| Paramètre | Valeur |
+|------------|---------|
+| Tension ADC | 1,66 V |
+| Tension lissée | 1,64 V |
+| Range | 0,04 V |
+| Statut | PASS |
+
+---
+
+## Test 4 - Filtre RC
+
+### Configuration
+
+- Fréquence PWM : 2500 Hz
+- Duty Cycle : 75 %
+
+### Résultats
+
+| Paramètre | Valeur |
+|------------|---------|
+| Tension ADC | 2,47 V |
+| Tension lissée | 2,45 V |
+| Range | 0,03 V |
+| Statut | PASS |
+
+---
+
+## Test 5 - FFT
+
+### Configuration
+
+- Fréquence PWM : 1000 Hz
+
+### Résultats
+
+| Paramètre | Valeur |
+|------------|---------|
+| Fréquence FFT dominante | 1003 Hz |
+| Erreur | 0,3 % |
+| Statut | PASS |
+
+---
+
+## Test 6 - FFT
+
+### Configuration
+
+- Fréquence PWM : 2500 Hz
+
+### Résultats
+
+| Paramètre | Valeur |
+|------------|---------|
+| Fréquence FFT dominante | 2494 Hz |
+| Erreur | 0,24 % |
+| Statut | PASS |
+
+---
+
+## Observations
+
+Les mesures obtenues montrent :
+
+- Une bonne stabilité du filtre RC.
+- Une faible erreur entre fréquence demandée et fréquence mesurée.
+- Une détection correcte de la fréquence dominante par FFT.
+- Une cohérence entre les mesures analogiques et numériques.
+
+## Conclusion
+
+Le système valide correctement la génération, l'acquisition et l'analyse des signaux.
+
+Les erreurs observées restent inférieures à 1 %, ce qui est cohérent avec les tolérances attendues pour ce type de montage sur breadboard.
