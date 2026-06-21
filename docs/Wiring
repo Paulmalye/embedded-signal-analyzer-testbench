@@ -1,0 +1,167 @@
+# Schéma de câblage
+
+## Présentation
+
+Ce document décrit les connexions utilisées pour le projet Embedded Signal Analyzer & Test Bench.
+
+---
+
+## ESP32
+
+Carte principale :
+
+- ESP32 DevKit
+
+---
+
+## Potentiomètre de fréquence
+
+| Élément | Connexion |
+|----------|----------|
+| Curseur | GPIO34 |
+| Extrémité 1 | 3,3 V |
+| Extrémité 2 | GND |
+
+Fonction :
+
+- Réglage de la fréquence PWM.
+
+---
+
+## Potentiomètre de Duty Cycle
+
+| Élément | Connexion |
+|----------|----------|
+| Curseur | GPIO35 |
+| Extrémité 1 | 3,3 V |
+| Extrémité 2 | GND |
+
+Fonction :
+
+- Réglage du rapport cyclique.
+
+---
+
+## Génération PWM
+
+| Signal | Connexion |
+|----------|----------|
+| PWM OUT | GPIO25 |
+
+Fonction :
+
+- Génération du signal principal.
+
+---
+
+## Filtre RC
+
+| Élément | Connexion |
+|----------|----------|
+| Résistance | GPIO25 → Point RC |
+| Condensateur | Point RC → GND |
+
+Fonction :
+
+- Transformation du PWM en tension moyenne.
+
+---
+
+## Acquisition ADC
+
+| Signal | Connexion |
+|----------|----------|
+| Point RC | GPIO32 |
+
+Fonction :
+
+- Mesure de la tension filtrée.
+
+---
+
+## Mesure de fréquence
+
+| Signal | Connexion |
+|----------|----------|
+| GPIO25 | GPIO33 |
+
+Fonction :
+
+- Mesure de la fréquence réelle du signal PWM.
+
+---
+
+## FFT
+
+| Signal | Connexion |
+|----------|----------|
+| GPIO25 | GPIO32 (mode FFT) |
+
+Fonction :
+
+- Analyse fréquentielle du signal.
+
+Remarque :
+
+GPIO32 est utilisé soit pour l'acquisition ADC du filtre RC, soit pour l'analyse FFT selon la configuration de test.
+
+---
+
+## LED de visualisation
+
+| Élément | Connexion |
+|----------|----------|
+| GPIO26 | Résistance de base |
+| Résistance | Base du PN2222 |
+| Collecteur | LED |
+| Émetteur | GND |
+
+Fonction :
+
+- Visualisation du Duty Cycle.
+
+---
+
+## OLED SSD1306
+
+| OLED | ESP32 |
+|--------|--------|
+| SDA | GPIO21 |
+| SCL | GPIO22 |
+| VCC | 3,3 V |
+| GND | GND |
+
+Fonction :
+
+- Affichage des mesures.
+
+---
+
+## Double OLED (version finale)
+
+### OLED 1
+
+Affichage :
+
+- PWM
+- Duty Cycle
+- ADC
+- Moyenne glissante
+- Range
+
+### OLED 2
+
+Affichage :
+
+- Fréquence mesurée
+- FFT
+- Erreur
+- Diagnostic
+
+---
+
+## Évolutions prévues
+
+- Diagnostic automatique avancé
+- Journalisation des mesures
+- Interface Web Wi-Fi
