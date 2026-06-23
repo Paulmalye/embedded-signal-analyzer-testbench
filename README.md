@@ -4,19 +4,30 @@
 
 Mini banc de test électronique basé sur ESP32.
 
-Ce projet permet de générer, mesurer et analyser différents signaux électroniques.
+Ce projet permet de générer, mesurer et analyser différents signaux électroniques afin d'étudier les notions de PWM, filtrage RC, acquisition analogique, mesure de fréquence et analyse FFT.
 
-Réalisé dans le cadre de ma reconversion vers l'électronique afin de développer des compétences en acquisition de données, traitement du signal et validation électronique.
+Réalisé dans le cadre de ma reconversion vers l'électronique afin de développer des compétences en systèmes embarqués, traitement du signal et validation électronique.
+
+## Prototype
+
+![Prototype V1](prototype_v1.jpg)
+
+## Résultats sur double OLED
+
+![OLED Results](oled_results.jpg)
 
 ---
 
 ## Objectifs
 
 - Générer un signal PWM réglable
-- Mesurer une tension analogique
-- Caractériser un signal
+- Contrôler la fréquence et le duty cycle en temps réel
+- Réaliser un filtrage RC passe-bas
+- Mesurer une tension analogique avec l'ADC de l'ESP32
+- Appliquer un traitement numérique (moyenne glissante)
+- Mesurer la fréquence d'un signal
 - Réaliser une analyse FFT
-- Produire un diagnostic automatique
+- Mettre en œuvre un diagnostic automatique
 
 ---
 
@@ -24,105 +35,112 @@ Réalisé dans le cadre de ma reconversion vers l'électronique afin de dévelop
 
 ### Génération
 
-- PWM réglable
-- Réglage de fréquence
-- Réglage du Duty Cycle
+- PWM configurable
+- Réglage de fréquence par potentiomètre
+- Réglage du duty cycle par potentiomètre
 
 ### Acquisition
 
-- Filtre RC
-- Acquisition ADC
-- Moyenne glissante
-- Min / Max / Range
+- Mesure ADC du signal filtré
+- Calcul de moyenne glissante (AVG)
+- Analyse de stabilité du signal (RNG)
 
 ### Analyse
 
-- Mesure de fréquence
-- FFT
-- Validation du signal
-- Diagnostic PASS / WARN / FAIL
+- Mesure fréquentielle temporelle (MEAS)
+- Analyse fréquentielle FFT
+- Calcul d'erreur de mesure
+- Validation PASS / WARN / FAIL
 
 ---
 
-## Architecture du système
+## Architecture système
 
 ### Génération du signal
 
-- Potentiomètre de fréquence
-- Potentiomètre de Duty Cycle
-- ESP32
-- Génération PWM
+```text
+ESP32
+  └── PWM (GPIO25)
+```
 
 ### Conditionnement analogique
 
-- Sortie PWM
-- Filtre RC
-- Acquisition ADC
-- Calcul de la tension moyenne
+```text
+PWM
+ └── Résistance 4.7 kΩ
+      └── Point de mesure ADC
+           └── Condensateur
+                └── GND
+```
 
 ### Traitement numérique
 
-- Calcul Min / Max
-- Calcul du Range
+- Acquisition ADC
 - Moyenne glissante
-- Validation du signal
+- Calcul du Range (RNG)
+- Diagnostic automatique
 
 ### Analyse fréquentielle
 
-- Mesure de fréquence
-- Analyse FFT
-- Comparaison fréquence générée / fréquence mesurée
-- Calcul d'erreur
+- Mesure de fréquence temporelle
+- FFT sur 512 échantillons
+- Comparaison entre fréquence générée et fréquence détectée
 
 ### Interface utilisateur
 
-#### OLED 1 – Génération et acquisition
+#### OLED 1
 
-- Fréquence PWM
-- Duty Cycle
+Affichage :
+
+- Fréquence de consigne (SET)
+- Duty cycle
 - Tension ADC
-- Tension lissée
-- Range
+- Moyenne glissante (AVG)
+- Stabilité du signal (RNG)
 
-#### OLED 2 – Analyse et diagnostic
+#### OLED 2
 
-- Fréquence mesurée
-- FFT
-- Erreur
-- Diagnostic PASS / WARN / FAIL
+Affichage :
 
+- Fréquence mesurée (MEAS)
+- Fréquence FFT
+- Erreur de mesure
+- État du diagnostic
 
 ---
 
 ## Documentation
 
-La documentation détaillée est disponible dans le dossier `docs`.
+La documentation détaillée est disponible dans le dossier :
 
-### Contenu prévu
+```text
+docs/
+```
 
-- Architecture matérielle
-- Journal de développement
-- Traitement du signal
-- Résultats de tests
-- FFT et théorème de Nyquist
-- Diagnostic automatique
+### Contenu
+
+- Architecture
+- Wiring
+- Signal Processing
+- Tests Results
+- Development Journal
+- Lessons Learned
 
 ---
 
 ## Évolutions prévues
 
-- Analyse FFT avancée
-- Détection automatique de défauts
-- Journalisation des mesures
-- Sauvegarde sur carte SD
-- Interface Web Wi-Fi
-- Tableau de bord temps réel
-- Auto-test matériel
+- FFT optimisée
+- Auto-diagnostic avancé
+- Mesures statistiques supplémentaires
+- Sauvegarde des résultats
+- Génération de rapports de test
+- Interface Web ESP32
 
 ---
 
 ## Auteur
 
-**Paul Malye**
+Paul Malye
 
-Projet personnel réalisé dans le cadre de ma reconversion vers l'électronique embarquée, les systèmes de test et l'analyse de signaux.
+Projet réalisé dans le cadre d'une reconversion professionnelle vers l'électronique et les systèmes embarqués (BTS CIEL).
