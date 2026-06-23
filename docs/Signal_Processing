@@ -191,12 +191,81 @@ Dans ce projet, elle est utilisée pour :
 - vérifier la cohérence du signal généré
 
 
+## Analyse FFT
+
+Le projet utilise une FFT (Fast Fourier Transform) afin d'identifier la fréquence principale du signal PWM généré par l'ESP32.
+
+### Paramètres utilisés
+
+```cpp
+const uint16_t SAMPLES = 512;
+const double SAMPLING_FREQ = 20000.0;
+```
+
 ### Résolution fréquentielle
 
-La précision de la FFT dépend du rapport entre la fréquence d'échantillonnage et le nombre d'échantillons.
+La résolution fréquentielle dépend du nombre d'échantillons utilisés :
 
 ```text
 Résolution = fréquence d'échantillonnage / nombre d'échantillons
+```
+
+Dans la version actuelle :
+
+```text
+20000 / 512 ≈ 39 Hz
+```
+
+La FFT est donc capable de distinguer les fréquences par pas d'environ 39 Hz.
+
+### Impact de l'augmentation du nombre d'échantillons
+
+Version précédente :
+
+```text
+128 échantillons
+Résolution ≈ 156 Hz
+```
+
+Version actuelle :
+
+```text
+512 échantillons
+Résolution ≈ 39 Hz
+```
+
+L'augmentation du nombre d'échantillons améliore significativement la précision de détection de fréquence, notamment pour les basses fréquences.
+
+### Compromis
+
+Cette amélioration augmente cependant :
+
+- le temps d'acquisition ;
+- le temps de calcul de la FFT ;
+- la charge processeur ;
+- la latence d'affichage.
+
+Ce choix illustre un compromis classique en traitement du signal embarqué :
+
+```text
+Plus de précision
+=
+Plus de calculs
+=
+Temps de réponse plus long
+```
+
+### Résultat observé
+
+Lors des essais, la fréquence détectée par FFT est devenue beaucoup plus proche de la fréquence générée par le PWM.
+
+Le système compare désormais :
+
+- la fréquence de consigne (SET) ;
+- la fréquence mesurée temporellement (MEAS) ;
+- la fréquence estimée spectralement (FFT).
+
+Cette double validation permet de vérifier la cohérence des mesures et d'alimenter le diagnostic PASS / WARN / FAIL.
 
 ---
 
