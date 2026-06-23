@@ -190,6 +190,14 @@ Dans ce projet, elle est utilisée pour :
 - identifier la fréquence dominante
 - vérifier la cohérence du signal généré
 
+
+### Résolution fréquentielle
+
+La précision de la FFT dépend du rapport entre la fréquence d'échantillonnage et le nombre d'échantillons.
+
+```text
+Résolution = fréquence d'échantillonnage / nombre d'échantillons
+
 ---
 
 ## Harmoniques
