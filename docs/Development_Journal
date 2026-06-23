@@ -165,7 +165,7 @@ Identification de la composante principale du signal.
 
 ---
 
-## Étape 8 - Double OLED (en cours)
+## Étape 8 - Double OLED
 
 ### Objectif
 
@@ -188,5 +188,31 @@ Séparer l'affichage de génération et l'affichage d'analyse.
 ### Bénéfices
 
 - Interface plus claire
+
+## Étape 9 - Amélioration de la précision FFT
+
+### Objectif
+
+Comprendre pourquoi l'analyse FFT présente une erreur plus importante à basse fréquence.
+
+### Observation
+
+Lors des tests, la mesure temporelle `MEAS` reste très proche de la fréquence PWM demandée.
+
+En revanche, la valeur `FFT` peut présenter une erreur plus importante, surtout lorsque la fréquence est basse.
+
+### Explication
+
+La FFT travaille avec un nombre fixe d'échantillons.
+
+Dans la version actuelle :
+
+- Nombre d'échantillons : 128
+- Fréquence d'échantillonnage : 20 000 Hz
+
+La résolution fréquentielle est donc :
+
+```text
+Résolution = 20000 / 128 ≈ 156 Hz
 - Meilleure lisibilité
 - Architecture modulaire
