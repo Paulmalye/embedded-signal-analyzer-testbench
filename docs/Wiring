@@ -1,114 +1,99 @@
-## Architecture finale
+## Wiring Summary
 
-### Génération du signal
+### OLED 1 (Bus I²C #1)
 
-| Signal | Connexion |
-|----------|----------|
-| PWM OUT | GPIO25 |
+```text
+VCC → 3V3
+GND → GND
+SDA → GPIO21
+SCL → GPIO22
+```
 
-Fonction :
+### OLED 2 (Bus I²C #2)
 
-- Génération du signal PWM principal.
+```text
+VCC → 3V3
+GND → GND
+SDA → GPIO18
+SCL → GPIO19
+```
 
----
+### Potentiomètre Fréquence
 
-### Filtre RC
+```text
+3V3 → Pot
+GND → Pot
+Signal → GPIO34
+```
 
-| Élément | Connexion |
-|----------|----------|
-| Résistance | GPIO25 → Point RC |
-| Condensateur | Point RC → GND |
+### Potentiomètre Duty Cycle
 
-Fonction :
+```text
+3V3 → Pot
+GND → Pot
+Signal → GPIO35
+```
 
-- Conversion du PWM en tension moyenne.
+### Génération PWM
 
----
-
-### Acquisition ADC
-
-| Signal | Connexion |
-|----------|----------|
-| Point RC | GPIO32 |
-
-Fonction :
-
-- Mesure de la tension filtrée.
-- Calcul Min / Max.
-- Calcul du Range.
-- Moyenne glissante.
-
----
+```text
+GPIO25 → PWM OUT
+```
 
 ### Mesure de fréquence
 
-| Signal | Connexion |
-|----------|----------|
-| GPIO25 | GPIO33 |
-
-Fonction :
-
-- Mesure de la fréquence réelle du signal généré.
-- Validation de la fréquence PWM.
-
----
+```text
+GPIO25 → GPIO33
+```
 
 ### Analyse FFT
 
-| Signal | Connexion |
-|----------|----------|
-| GPIO25 | GPIO36 |
+```text
+GPIO25 → GPIO39 (SN)
+```
 
-Fonction :
+### Filtre RC
 
-- Échantillonnage du signal brut.
-- Analyse fréquentielle.
-- Détection de la fréquence dominante.
-- Validation du signal.
+```text
+GPIO25
+  │
+  └── Résistance 4.7 kΩ
+          │
+          ├── GPIO32
+          │
+          └── Condensateur 100 µF
+                    │
+                   GND
+```
 
----
+### LED de test
 
-### Affichage OLED n°1
+```text
+GPIO26
+  │
+  └── Résistance 4.7 kΩ
+          │
+       Base PN2222
 
-Affichage génération et acquisition :
+Émetteur → GND
 
-- PWM
-- Duty Cycle
-- Tension ADC
-- Tension lissée
-- Range
+Collecteur → Cathode LED
 
----
+3V3 → Résistance 220 Ω → Anode LED
+```
 
-### Affichage OLED n°2
+### Affectation des GPIO
 
-Affichage analyse et diagnostic :
-
-- Fréquence mesurée
-- FFT
-- Erreur
-- PASS / WARN / FAIL
-
----
-
-### LED de diagnostic
-
-| LED | Fonction |
-|------|----------|
-| Verte | PASS |
-| Jaune | WARN |
-| Rouge | FAIL |
-
----
-
-### LED de visualisation PWM
-
-| Élément | Connexion |
-|----------|----------|
-| GPIO26 | PN2222 |
-| PN2222 | LED |
-
-Fonction :
-
-- Visualisation du Duty Cycle.
-- Observation du comportement du PWM.
+| GPIO | Fonction |
+|--------|--------|
+| GPIO18 | OLED 2 SDA |
+| GPIO19 | OLED 2 SCL |
+| GPIO21 | OLED 1 SDA |
+| GPIO22 | OLED 1 SCL |
+| GPIO25 | PWM OUT |
+| GPIO26 | Commande LED |
+| GPIO32 | ADC filtre RC |
+| GPIO33 | Mesure fréquence |
+| GPIO34 | Potentiomètre fréquence |
+| GPIO35 | Potentiomètre duty cycle |
+| GPIO39 (SN) | Entrée FFT |
