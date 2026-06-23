@@ -189,30 +189,54 @@ Séparer l'affichage de génération et l'affichage d'analyse.
 
 - Interface plus claire
 
-## Étape 9 - Amélioration de la précision FFT
+## Étape 9 - Amélioration FFT
 
-### Objectif
+### Modification
 
-Comprendre pourquoi l'analyse FFT présente une erreur plus importante à basse fréquence.
+Passage de :
 
-### Observation
+```cpp
+SAMPLES = 128
+```
 
-Lors des tests, la mesure temporelle `MEAS` reste très proche de la fréquence PWM demandée.
+à :
 
-En revanche, la valeur `FFT` peut présenter une erreur plus importante, surtout lorsque la fréquence est basse.
+```cpp
+SAMPLES = 512
+```
 
-### Explication
+### Motivation
 
-La FFT travaille avec un nombre fixe d'échantillons.
+Réduire l'erreur de détection fréquentielle observée à basse fréquence.
 
-Dans la version actuelle :
+### Résultat
 
-- Nombre d'échantillons : 128
-- Fréquence d'échantillonnage : 20 000 Hz
-
-La résolution fréquentielle est donc :
+La résolution fréquentielle est passée de :
 
 ```text
-Résolution = 20000 / 128 ≈ 156 Hz
-- Meilleure lisibilité
-- Architecture modulaire
+156 Hz
+```
+
+à :
+
+```text
+39 Hz
+```
+
+La fréquence détectée par FFT est désormais plus proche de la fréquence réellement générée par le PWM.
+
+### Enseignement
+
+Cette amélioration montre l'un des compromis fondamentaux du traitement du signal :
+
+```text
+Plus de précision
+=
+Plus d'échantillons
+=
+Plus de calculs
+=
+Temps de réponse plus long
+```
+
+Le choix du nombre d'échantillons dépend donc du besoin du système : rapidité ou précision.
