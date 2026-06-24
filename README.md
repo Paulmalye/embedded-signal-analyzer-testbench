@@ -130,12 +130,40 @@ docs/
 
 ## Évolutions prévues
 
-- FFT optimisée
-- Auto-diagnostic avancé
-- Mesures statistiques supplémentaires
-- Sauvegarde des résultats
-- Génération de rapports de test
-- Interface Web ESP32
+### V2 - Waveform Generator
+
+Développement d'un générateur de signaux dédié sur une seconde breadboard :
+
+- Génération d'ondes carrées
+- Génération d'ondes triangulaires
+- Génération d'ondes sinusoïdales
+- Contrôle de fréquence et d'amplitude
+- Validation des signaux via le banc de test
+
+### V3 - Spectrum Analyzer
+
+Extension des capacités d'analyse fréquentielle :
+
+- Optimisation de la FFT
+- Visualisation spectrale en temps réel
+- Analyse harmonique des signaux générés
+- Étude des effets du filtrage analogique
+
+### V4 - Automatic Test Bench
+
+Transformation du projet en véritable banc de test électronique :
+
+- Procédures d'auto-test automatisées
+- Validation PASS / FAIL avancée
+- Tests de composants électroniques
+- Génération de rapports de mesure
+
+### Long terme
+
+- DAC externe pour génération analogique haute qualité
+- Interface utilisateur avancée
+- Sauvegarde des mesures
+- Communication PC et export de données
 
 ---
 
